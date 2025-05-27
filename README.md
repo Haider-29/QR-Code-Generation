@@ -25,3 +25,40 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 python run.py
 ```
+
+
+## ✨ Features
+
+- 🖼️ **Background Image Integration**: Upload PNG, JPG, SVG, and more
+- ⚡ **Real-time Generation**: See instant QR previews as you change parameters
+- 📱 **Responsive Design**: Works flawlessly across desktop, tablet, and mobile
+- 🎨 **Advanced Customization**: Modify QR styling, colors, and layout
+- 📥 **High-Quality Downloads**: Export as high-res PNGs
+- 🔄 **Drag & Drop Interface**: Effortless image uploads
+
+---
+
+## 📁 Project Structure
+
+qr-generator-app/
+├── backend/
+│ ├── app/
+│ │ ├── main.py # FastAPI application
+│ │ ├── api/
+│ │ │ └── endpoints.py # API routes
+│ │ ├── core/
+│ │ │ └── qr_generator.py # QR generation logic
+│ │ └── models/
+│ │ └── schemas.py # Data models
+│ ├── requirements.txt
+│ └── run.py # Application launcher
+├── frontend/
+│ ├── static/
+│ │ ├── css/style.css # Styling
+│ │ └── js/app.js # Frontend logic
+│ └── templates/
+│ └── index.html # Main interface
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+

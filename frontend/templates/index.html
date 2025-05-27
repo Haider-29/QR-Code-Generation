@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic QR Code Generator</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎨 Dynamic QR Code Generator</h1>
+            <p>Create beautiful QR codes with custom background images and real-time parameter tuning</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Panel: Controls -->
+            <div class="controls-panel">
+                <div class="section">
+                    <h3>📁 Image Upload</h3>
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="imageUpload" accept="image/*" hidden>
+                        <div class="upload-content">
+                            <div class="upload-icon">📷</div>
+                            <p>Click to upload or drag & drop</p>
+                            <small>Supports PNG, JPG, SVG, etc.</small>
+                        </div>
+                    </div>
+                    <div id="uploadedImages" class="uploaded-images"></div>
+                </div>
+
+                <div class="section">
+                    <h3>🔗 QR Code Data</h3>
+                    <div class="form-group">
+                        <input type="text" id="qrData" value="https://www.example.com" placeholder="Enter URL or text">
+                        <small class="help-text">The text or URL to encode in the QR code</small>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🖼️ Background Settings</h3>
+                    <div class="form-group">
+                        <label for="backgroundMode">Background Mode:</label>
+                        <select id="backgroundMode">
+                            <option value="Stretched">Stretched</option>
+                            <option value="Contained">Contained</option>
+                        </select>
+                        <small class="help-text">Stretched: Fill entire area | Contained: Fit within 40% area</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="backgroundPadding">Background Padding: <span id="backgroundPaddingValue" class="range-value">60</span>px</label>
+                        <input type="range" id="backgroundPadding" min="0" max="200" value="60">
+                        <small class="help-text">Space around the background image</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="backgroundAlpha">Background Alpha: <span id="backgroundAlphaValue" class="range-value">255</span></label>
+                        <input type="range" id="backgroundAlpha" min="0" max="255" value="255">
+                        <small class="help-text">Background transparency (0 = transparent, 255 = opaque)</small>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>🎯 Finder Pattern Settings</h3>
+                    <div class="form-group">
+                        <label for="finderShape">Finder Shape:</label>
+                        <select id="finderShape">
+                            <option value="circle">Circle</option>
+                            <option value="square">Square</option>
+                            <option value="rounded_square" selected>Rounded Square</option>
+                        </select>
+                        <small class="help-text">Shape of the three corner detection patterns</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="finderColorMode">Color Mode:</label>
+                        <select id="finderColorMode">
+                            <option value="static">Static</option>
+                            <option value="dynamic" selected>Dynamic</option>
+                        </select>
+                        <small class="help-text">Static: Fixed colors | Dynamic: Colors from background</small>
+                    </div>
+                    
+                    <div class="form-group" id="finderSubmodeGroup">
+                        <label for="finderDynamicSubmode">Dynamic Submode:</label>
+                        <select id="finderDynamicSubmode">
+                            <option value="single-color" selected>Single Color</option>
+                            <option value="multi-color">Multi Color</option>
+                        </select>
+                        <small class="help-text">Single: One color for all patterns | Multi: Different colors for each</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="enableFinderOverlay" checked>
+                            Enable Finder Overlay
+                        </label>
+                        <small class="help-text">Adds a subtle overlay around finder patterns for better visibility</small>
+                    </div>
+                    
+                    <div class="form-group" id="overlayPaddingGroup">
+                        <label for="finderOverlayPadding">Overlay Padding: <span id="finderOverlayPaddingValue" class="range-value">15</span>px</label>
+                        <input type="range" id="finderOverlayPadding" min="0" max="50" value="15">
+                    </div>
+                    
+                    <div class="form-group" id="brightnessGroup">
+                        <label>
+                            <input type="checkbox" id="reduceInnermost" checked>
+                            Reduce Innermost Brightness
+                        </label>
+                        <small class="help-text">Only applies to dynamic multi-color mode</small>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>📊 Data Module Settings</h3>
+                    <div class="form-group">
+                        <label for="dataModuleShape">Data Module Shape:</label>
+                        <select id="dataModuleShape">
+                            <option value="diamond" selected>Diamond</option>
+                            <option value="square">Square</option>
+                            <option value="circle">Circle</option>
+                        </select>
+                        <small class="help-text">Shape of individual QR code data points</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dataModuleColorMode">Color Mode:</label>
+                        <select id="dataModuleColorMode">
+                            <option value="adaptive" selected>Adaptive</option>
+                            <option value="static">Static</option>
+                        </select>
+                        <small class="help-text">Adaptive: Colors adapt to background | Static: Fixed colors</small>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>⚙️ Advanced Settings</h3>
+                    <div class="form-group">
+                        <label for="boxSize">Box Size: <span id="boxSizeValue" class="range-value">25</span>px</label>
+                        <input type="range" id="boxSize" min="10" max="50" value="25">
+                        <small class="help-text">Size of each QR code module</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="border">Border: <span id="borderValue" class="range-value">4</span> modules</label>
+                        <input type="range" id="border" min="1" max="10" value="4">
+                        <small class="help-text">White border around QR code</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="padding">Padding: <span id="paddingValue" class="range-value">4</span>px</label>
+                        <input type="range" id="padding" min="0" max="10" value="4">
+                        <small class="help-text">Space within each data module</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="errorCorrection">Error Correction:</label>
+                        <select id="errorCorrection">
+                            <option value="L">Low (~7%)</option>
+                            <option value="M">Medium (~15%)</option>
+                            <option value="Q">Quartile (~25%)</option>
+                            <option value="H" selected>High (~30%)</option>
+                        </select>
+                        <small class="help-text">Higher levels can recover from more damage but create denser codes</small>
+                    </div>
+                </div>
+
+                <button class="generate-btn" id="generateBtn" onclick="generateQR()">
+                    Generate QR Code
+                </button>
+            </div>
+
+            <!-- Right Panel: Preview -->
+            <div class="preview-panel">
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Generating your QR code...</p>
+                </div>
+                
+                <div class="preview-area" id="previewArea" style="display: none;">
+                    <h3>Generated QR Code</h3>
+                    <img id="qrPreview" class="qr-preview" alt="Generated QR Code">
+                    <br>
+                    <button class="download-btn" id="downloadBtn" onclick="downloadQR()">
+                        📥 Download QR Code
+                    </button>
+                </div>
+                
+                <div id="placeholderText" style="text-align: center; color: #666;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🎨</div>
+                    <h3>Upload an image and generate your QR code</h3>
+                    <p>Your generated QR code will appear here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

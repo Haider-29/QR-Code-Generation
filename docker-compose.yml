@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  qr-generator:
+    build: .
+    container_name: qr-generator-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./outputs:/app/outputs
+    environment:
+      - QR_HOST=0.0.0.0
+      - QR_PORT=8000
+      - QR_DEBUG=false
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - qr-network
+
+networks:
+  qr-network:
+    driver: bridge
+
+volumes:
+  qr-uploads:
+  qr-outputs:

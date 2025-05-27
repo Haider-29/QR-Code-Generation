@@ -1,1 +1,25 @@
-venv
+# Virtual environment
+venv/
+
+# Output and upload folders
+backend/outputs/
+backend/uploads/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Image files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.webp
+
+# VS Code settings (optional)
+.vscode/

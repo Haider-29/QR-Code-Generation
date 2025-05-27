@@ -11,9 +11,47 @@ A professional, full-stack web application for creating beautiful, customizable 
 
 ### Using Docker (Recommended)
 ```bash
+docker pull salman2002ahmad/qr-generator:latest
 docker run -d -p 8000:8000 salman2002ahmad/qr-generator:latest
 Then open http://localhost:8000 in your browser.
 ```
+
+## Recommended (With Persistent Storage)
+```bash
+mkdir -p qr-uploads qr-outputs
+
+docker run -d \
+  --name qr-generator \
+  -p 8000:8000 \
+  -v $(pwd)/qr-uploads:/app/uploads \
+  -v $(pwd)/qr-outputs:/app/outputs \
+  --restart unless-stopped \
+  salman2002ahmad/qr-generator:latest
+
+Access at: http://localhost:8000
+```
+
+## Using Docker Compose
+```bash
+version: '3.8'
+services:
+  qr-generator:
+    image: salman2002ahmad/qr-generator:latest
+    container_name: qr-generator
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./outputs:/app/outputs
+    restart: unless-stopped
+```
+
+Then Run :
+```bash
+docker-compose up -d
+```
+
+
 
 ### Local Development
 ```bash
